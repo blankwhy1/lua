@@ -1,0 +1,22 @@
+local codes = {
+    "CAVERN",
+    "LEGOMY",
+    "SorryReward",
+    "THEKRAKEN",
+    "CARBON",
+    "ATLANTEANSTORM",
+    "SORRYGUYS",
+    "GOLDENTIDE",
+    "FISCHMASDAY",
+    "NewYear"
+}
+
+
+local runcode = game:GetService("ReplicatedStorage").events.runcode
+
+for _, code in ipairs(codes) do
+    pcall(function()
+        runcode:FireServer(code)
+    end)
+    task.wait(0.1)
+end
