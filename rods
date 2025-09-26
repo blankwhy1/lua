@@ -1,0 +1,34 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local purchaseEvent = ReplicatedStorage:WaitForChild("events"):WaitForChild("purchase")
+
+local rods = {
+    "Great Rod of Oscar", "Seraphic Rod", "Wicked Fang Rod",
+    "Avalanche Rod", "Azure Of Lagoon", "Ethereal Prism Rod",
+    "No life rod", "Great Dreamer Rod", "Firefly Rod",
+    "Leviathan's Fang Rod", "Carrot Rod", "Champions Rod",
+    "Depthseeker Rod", "Destiny Rod", "Blazebringer Rod",
+    "Fast Rod", "Firework Rod", "Treasure Rod",
+    "Flimsy Rod", "Fortune Rod", "Free Spirit Rod",
+    "Frog Rod", "Frostbane Rod",
+    "Abyssal Specter Rod", "Kings Rod", "Kraken Rod",
+    "Carbon Rod", "Long Rod", "Lucky Rod",
+    "Magnet Rod", "Merchant Rod", "Midas Rod",
+    "Mythical Rod", "No-Life Rod", "Nocturnal Rod",
+    "Paper Fan Rod", "Phoenix Rod", "Plastic Rod",
+    "Poseidon Rod", "Rainbow Cluster Rod", "Rapid Rod",
+    "Reinforced Rod", "Scurvy Rod", "Arctic Rod",
+    "Steady Rod", "Stone Rod", "Summit Rod",
+    "Tempest Rod", "Training Rod",
+    "Treasure Rod", "Trident Rod", "Verdant Shear Rod",
+    "Wildflower Rod", "Zeus Rod", "Aurora Rod"
+}
+
+for _, rodName in ipairs(rods) do
+    local args = {
+        rodName,
+        "Rod",
+        [4] = 1
+    }
+    purchaseEvent:FireServer(unpack(args))
+    task.wait(0.1) -- задержка, чтобы не крашнуло
+end
