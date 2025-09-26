@@ -1,4 +1,5 @@
 local codes = {
+    "NorthernExpedition",
     "CAVERN",
     "LEGOMY",
     "SorryReward",
