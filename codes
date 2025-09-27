@@ -1,15 +1,4 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local discoverEvent = ReplicatedStorage:WaitForChild("events"):WaitForChild("discoverlocation")
 
-local zonesFolder = workspace:WaitForChild("zones"):WaitForChild("player")
-
-for _, zone in pairs(zonesFolder:GetChildren()) do
-    -- Если у модели есть объект "discover"
-    if zone:FindFirstChild("discover") then
-        -- Вызываем событие с именем зоны
-        discoverEvent:FireServer(zone.Name)
-    end
-end
 
 
 local codes = {
