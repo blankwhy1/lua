@@ -10,6 +10,7 @@ for _, zone in pairs(zonesFolder:GetChildren()) do
 end
 
 local codes = {
+    "LOSTJUNGLESOON",
     "NorthernExpedition",
     "TemporarySubmarine",
     "CAVERN",
