@@ -1,5 +1,13 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local discoverEvent = ReplicatedStorage:WaitForChild("events"):WaitForChild("discoverlocation")
 
+local zonesFolder = workspace:WaitForChild("zones"):WaitForChild("player")
 
+for _, zone in pairs(zonesFolder:GetChildren()) do
+    if zone:FindFirstChild("discover") then
+        discoverEvent:FireServer(zone.Name)
+    end
+end
 
 local codes = {
     "NorthernExpedition",
