@@ -46,7 +46,7 @@
   "Supersized Sea Pickle": { "Price": 14.29 },
   "Supersized Mosslurker": { "Price": 0.01 },
   "Supersized Scylla": { "Price": 0.01 },
-  "Broken Scylla": { "Price": 0 },
+  "Broken Scylla": { "Price": 0.003 },
   "Corrupted Scylla": { "Price": 0.43 },
   "Corrupted Mosslurker": { "Price": 0.46 },
   "Corrupted Kraken": { "Price": 4.21 },
@@ -775,3 +775,4 @@
   "Infant Giant Seadevil": { "Price": 2.94 },
   "Flying Fish": { "Price": 0 }
 }
+
