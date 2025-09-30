@@ -245,15 +245,15 @@
   "Foamrunner": { "Price": 0.59 },
   "Bluefin Tuna School": { "Price": 3.13 },
   "Giant Moray": { "Price": 125 },
-  "Corrupted Floppy": {"Price": 4142.86},
-  "Corrupted Megalodon": {"Price": 5},
-  "Frank": {"Price": 2500},
-  "Snowman": {"Price": 8000},
-  "Snowflake": {"Price": 1000},
-  "Fern": {"Price": 20},
-  "JellyBop": {"Price": 500000},
-  "Ghoul": {"Price": 40000},
-  "Mango Whale": {"Price": 5000}
+  "Corrupted Floppy": {"Price": 4142.86 },
+  "Corrupted Megalodon": {"Price": 5 },
+  "Frank": {"Price": 2500 },
+  "Snowman": {"Price": 8000 },
+  "Snowflake": {"Price": 1000 },
+  "Fern": {"Price": 20 },
+  "JellyBop": {"Price": 500000 },
+  "Ghoul": {"Price": 40000 },
+  "Mango Whale": {"Price": 5000 },
   "Bearded Toadfish": { "Price": 216.67 },
   "Splendid Toadfish": { "Price": 75 },
   "Smooth Toadfish": { "Price": 36.36 },
@@ -784,5 +784,6 @@
   "Infant Giant Seadevil": { "Price": 2.94 },
   "Flying Fish": { "Price": 0 }
 }
+
 
 
