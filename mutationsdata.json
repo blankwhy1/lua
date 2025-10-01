@@ -1,8 +1,6 @@
 {
   "Shiny": { "Multiplier": 1.85 },
   "Sparkling": { "Multiplier": 1.85 },
-  "Big": { "Multiplier": 1.5 },
-  "Giant": { "Multiplier": 2 },
   "Tryhard": { "Multiplier": 17 },
   "Mastered": { "Multiplier": 16 },
   "Umbra": { "Multiplier": 15 },
@@ -156,3 +154,4 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
