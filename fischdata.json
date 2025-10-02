@@ -58,7 +58,7 @@
   "Fridge": { "Price": 100 },
   "Lightning Bolt": { "Price": 238.1 },
   "Bombastic Egg": { "Price": 25000 },
-  "Broken Scylla": { "Price": 0 },
+  "Broken Scylla": { "Price": 0.003 },
   "Mr. Tentacles": { "Price": 3571.43 },
   "Mango Smoothie": { "Price": 2631.58 },
   "Supersized Mosslurker": { "Price": 0.01 },
@@ -936,4 +936,5 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
 
