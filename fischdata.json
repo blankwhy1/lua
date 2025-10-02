@@ -589,16 +589,16 @@
   "Gem Blobfish": { "Price": 2000 },
   "Mustard": { "Price": 4750 },
   "Scylla": { "Price": 0.4 },
-  "🐋": { "Price": 0 },
+  "🐋": { "Price": 0.001 },
   "Toilet Fish": { "Price": 1000 },
   "Ancient Kraken": { "Price": 2.5 },
   "Abyssborn Monstrosity": { "Price": 4.34 },
   "Colossal Ethereal Dragon": { "Price": 0.75 },
   "Baby Bloop Fish": { "Price": 500 },
   "Molten Ripple": { "Price": 3.5 },
-  "Friend Fish": { "Price": 0 },
-  "🦑": { "Price": 0 },
-  "🐟": { "Price": 0 },
+  "Friend Fish": { "Price": 0.003 },
+  "🦑": { "Price": 0.001 },
+  "🐟": { "Price": 0.001 },
   "Banana": { "Price": 18500 },
   "Moby": { "Price": 0.38 },
   "Blue Sea Slug": { "Price": 50000 },
@@ -609,7 +609,7 @@
   "Resin": { "Price": 100 },
   "Long Pike": { "Price": 5142.86 },
   "Great Goldcursed Shark": { "Price": 2 },
-  "🐡": { "Price": 0 },
+  "🐡": { "Price": 0.001 },
   "Experimental Salmon": { "Price": 6.43 },
   "Enchant Relic": { "Price": 166.67 },
   "Exalted Relic": { "Price": 571.43 },
@@ -936,6 +936,7 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
 
 
 
