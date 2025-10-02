@@ -556,7 +556,7 @@
   "Glacierfish": { "Price": 13.33 },
   "Carrot Snapper": { "Price": 320 },
   "Baby Pond Emperor": { "Price": 2500 },
-  "Scalloped Hammerhead": { "Price": 1.15 },
+  "Scalloped Hammerhead": { "Price": 0.933 },
   "Goldfin Octopus": { "Price": 37.5 },
   "Magma Leviathan": { "Price": 1.79 },
   "White Sturgeon": { "Price": 16.43 },
@@ -936,3 +936,4 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
