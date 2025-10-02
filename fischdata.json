@@ -608,7 +608,7 @@
   "Moon Idol": { "Price": 600 },
   "Resin": { "Price": 100 },
   "Long Pike": { "Price": 5142.86 },
-  "Great Goldcursed Shark": { "Price": 3.33 },
+  "Great Goldcursed Shark": { "Price": 2 },
   "🐡": { "Price": 0 },
   "Experimental Salmon": { "Price": 6.43 },
   "Enchant Relic": { "Price": 166.67 },
@@ -936,5 +936,6 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
 
 
