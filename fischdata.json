@@ -49,7 +49,7 @@
   "Wanwood Egg": { "Price": 2500 },
   "Golden Nessie": { "Price": 3.88 },
   "Alien Buddy": { "Price": 350000 },
-  "Supersized Bloop Fish": { "Price": 0 },
+  "Supersized Bloop Fish": { "Price": 0.004 },
   "Star": { "Price": 166.67 },
   "Dr. Ishmael": { "Price": 178571.43 },
   "Cousin Tentacles": { "Price": 3571.43 },
@@ -936,6 +936,7 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
 
 
 
