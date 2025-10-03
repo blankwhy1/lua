@@ -570,7 +570,7 @@
   "Ancient Depth Serpent": { "Price": 8 },
   "Blue Whale": { "Price": 0.1 },
   "Orca": { "Price": 8 },
-  "The Kraken": { "Price": 2.86 },
+  "The Kraken": { "Price": 0.111 },
   "Megalodon": { "Price": 0.15 },
   "Lithodes Megacantha": { "Price": 2666.67 },
   "Carrot Shark": { "Price": 170.21 },
@@ -936,6 +936,7 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
 
 
 
