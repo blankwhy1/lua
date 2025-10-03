@@ -4,7 +4,7 @@
   "Lava Bucket": { "Price": 7142.86 },
   "Bouncing Egg": { "Price": 2500 },
   "Bluesteel Egg": { "Price": 2500 },
-  "Corrupted Kraken": { "Price": 4.21 },
+  "Corrupted Kraken": { "Price": 4.214 },
   "Cheezburger": { "Price": 500 },
   "Brighteyes Egg": { "Price": 2500 },
   "Golden Coin": { "Price": 3333.33 },
@@ -936,6 +936,7 @@
   "Akkorokamui": { "Price": 0.07 },
   "Charybdis": { "Price": 0.07 }
 }
+
 
 
 
