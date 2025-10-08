@@ -1,0 +1,271 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+
+-- Remote
+local RETradeAddItem = ReplicatedStorage.packages.Net["RE/Trade/AddItem"] -- RemoteEvent
+
+-- Config
+local FISH_TO_TRADE = {
+    "Cosmic Relic",
+}
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local Backpack = LocalPlayer.Backpack
+
+-- Trade GUI
+local trade = PlayerGui:WaitForChild("hud"):WaitForChild("safezone"):WaitForChild("Trade")
+local tradeList = trade:WaitForChild("PlayerOffer"):WaitForChild("List"):WaitForChild("ScrollingFrame")
+local offerables = trade.PlayerOffer.List:WaitForChild("Offerables")
+local tradeFrame = tradeList.Parent.Parent
+
+-- Получаем Header трейда
+local tradeHeader = trade:WaitForChild("Header")
+
+-- Кнопка в Header
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0.3, 0, 0.5, 0) -- 30% ширины, 50% высоты Header
+toggleButton.Position = UDim2.new(0.35, 0, 0.25, 0) -- по центру
+toggleButton.Text = "Start"
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 0)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+toggleButton.BackgroundTransparency = 0.5
+toggleButton.TextScaled = true
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.Parent = tradeHeader
+
+-- Переменные трейда
+local isTrading = false
+local tradeCoroutine = nil
+local tradeCount = 1 -- Start from 1 instead of 0
+
+local function tradeOneFish()
+    if not isTrading then return false end
+    local cosmicRelic = Backpack:FindFirstChild("Cosmic Relic")
+    if cosmicRelic and cosmicRelic:IsA("Instance") and cosmicRelic:FindFirstChild("link") and cosmicRelic.link.Value then
+        local itemId = cosmicRelic.link.Value
+        RETradeAddItem:FireServer("Item", itemId, tradeCount)
+        tradeCount = tradeCount + 1 -- Increment the quantity for the next trade (1, 2, 3, ...)
+        return true
+    end
+    return false
+end
+
+local function tradeFishLoop()
+    while isTrading do
+        local traded = tradeOneFish()
+        if not traded then
+            if not isTrading then break end
+            wait(0.01)
+        else
+            if not isTrading then break end
+            wait(0.01)
+        end
+    end
+end
+
+local function toggleTrade()
+    if isTrading then
+        isTrading = false
+        if tradeCoroutine then
+            coroutine.close(tradeCoroutine)
+            tradeCoroutine = nil
+        end
+        toggleButton.Text = "Start Trade"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    else
+        isTrading = true
+        tradeCount = 1 -- Reset trade count to 1 when starting a new trade session
+        if tradeCoroutine then
+            coroutine.close(tradeCoroutine)
+            tradeCoroutine = nil
+        end
+        tradeCoroutine = coroutine.create(tradeFishLoop)
+        coroutine.resume(tradeCoroutine)
+        toggleButton.Text = "Stop Trade"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
+    end
+end
+
+toggleButton.MouseButton1Click:Connect(toggleTrade)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.T then
+        toggleTrade()
+    end
+end)
+
+-- JSON загрузка
+local function loadJson(url)
+    local success, result = pcall(function() return game:HttpGet(url, true) end)
+    if not success then
+        print("Ошибка загрузки JSON: " .. url)
+        return nil
+    end
+    if not result or result == "" then
+        print("Пустой результат JSON: " .. url)
+        return nil
+    end
+    local data
+    local ok, err = pcall(function() data = HttpService:JSONDecode(result) end)
+    if not ok then
+        print("Ошибка декодирования JSON: " .. err)
+        return nil
+    end
+    return data
+end
+
+local fishUrl = "https://raw.githubusercontent.com/blankwhy1/lua/main/fischdata.json"
+local mutationUrl = "https://raw.githubusercontent.com/blankwhy1/lua/main/mutationsdata.json"
+local fishData = loadJson(fishUrl)
+local mutationData = loadJson(mutationUrl)
+if not fishData or not mutationData then
+    print("Не удалось загрузить fishData или mutationData")
+    return
+end
+
+-- Парсинг
+local function parseName(rawText)
+    local mutation = rawText:match("<font[^>]*>(.-)</font>")
+    local fishName = rawText:gsub("<font[^>]*>.-</font>", ""):gsub("^%s+", ""):gsub("%s+$", "")
+    if mutation then mutation = mutation:gsub("^%s+", ""):gsub("%s+$", "") end
+    if mutation == "" then mutation = nil end
+    if fishName == "" then fishName = nil end
+    return mutation, fishName
+end
+
+local function parseWeight(weightText)
+    local weightNum = tonumber(weightText:match("[%d%.]+")) or 0
+    if weightText:find("T") then weightNum = weightNum * 1000 end
+    return weightNum
+end
+
+local function parseStack(stackText)
+    return tonumber(stackText:match("x(%d+)")) or 1
+end
+
+local function calculatePrice(weightText, pricePerKg, mutation, stackCount)
+    if not pricePerKg then return 0 end
+    local weight = parseWeight(weightText)
+    if weight <= 0 then return 0 end
+    local total = pricePerKg * weight
+    if mutation then
+        local mutationLower = mutation:lower()
+        for key, data in pairs(mutationData) do
+            if key:lower() == mutationLower and data["Multiplier"] then
+                total = total * data["Multiplier"]
+                break
+            end
+        end
+    end
+    if stackCount and stackCount > 1 then total = total * stackCount end
+    return total
+end
+
+-- Итоговый ценник
+local totalLabel = tradeFrame:FindFirstChild("TotalLabel")
+if not totalLabel then
+    totalLabel = Instance.new("TextLabel")
+    totalLabel.Name = "TotalLabel"
+    totalLabel.Size = UDim2.new(1, 0, 0, 40)
+    totalLabel.Position = UDim2.new(0, 0, 1, -40)
+    totalLabel.BackgroundTransparency = 0.5
+    totalLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+    totalLabel.TextColor3 = Color3.new(0, 1, 0)
+    totalLabel.TextScaled = true
+    totalLabel.Font = Enum.Font.SourceSansBold
+    totalLabel.TextXAlignment = Enum.TextXAlignment.Center
+    totalLabel.ZIndex = 10
+    totalLabel.Parent = tradeFrame
+end
+totalLabel.Visible = true
+
+local function updateTotal()
+    local total = 0
+    local hasPrice = false
+    for _, item in ipairs(tradeList:GetChildren()) do
+        if item.Name == "ItemTemplate" then
+            local priceLabel = item:FindFirstChild("PriceLabel")
+            if priceLabel then
+                local priceText = priceLabel.Text:match("Price: ([%d%.]+)")
+                if priceText then
+                    total = total + tonumber(priceText)
+                    hasPrice = true
+                end
+            end
+        end
+    end
+    totalLabel.Text = string.format("Total: %.2f", hasPrice and total or 0)
+end
+
+-- Автообновление цены
+local function watchItem(container)
+    local itemName = container:FindFirstChild("ItemName")
+    local weightLabel = container:FindFirstChild("Weight")
+    local stackLabel = container:FindFirstChild("Stack")
+    
+    local function refresh()
+        if not itemName or not weightLabel then return end
+        local mutation, fishName = parseName(itemName.Text)
+        local pricePerKg = fishData[fishName] and fishData[fishName]["Price"]
+        if pricePerKg then
+            local stackCount = stackLabel and parseStack(stackLabel.Text) or 1
+            local totalPrice = calculatePrice(weightLabel.Text, pricePerKg, mutation, stackCount)
+            
+            local priceLabel = container:FindFirstChild("PriceLabel")
+            if not priceLabel then
+                priceLabel = Instance.new("TextLabel")
+                priceLabel.Name = "PriceLabel"
+                priceLabel.Size = UDim2.new(1, 0, 0, 30)
+                priceLabel.Position = UDim2.new(0, 0, 0, 60)
+                priceLabel.BackgroundTransparency = 0.5
+                priceLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+                priceLabel.TextColor3 = Color3.new(1, 1, 0)
+                priceLabel.TextScaled = true
+                priceLabel.Font = Enum.Font.SourceSansBold
+                priceLabel.TextXAlignment = Enum.TextXAlignment.Left
+                priceLabel.ZIndex = 10
+                priceLabel.Parent = container
+            end
+            priceLabel.Text = string.format("Price: %.2f", totalPrice)
+            updateTotal()
+        end
+    end
+
+    if itemName then itemName:GetPropertyChangedSignal("Text"):Connect(refresh) end
+    if weightLabel then weightLabel:GetPropertyChangedSignal("Text"):Connect(refresh) end
+    if stackLabel then stackLabel:GetPropertyChangedSignal("Text"):Connect(refresh) end
+
+    refresh()
+end
+
+local function initializeItems()
+    for _, item in ipairs(tradeList:GetChildren()) do
+        if item.Name == "ItemTemplate" then watchItem(item) end
+    end
+    for _, child in ipairs(offerables:GetChildren()) do
+        local sio = child:FindFirstChild("SelectionImageObject")
+        if sio then watchItem(sio) end
+    end
+end
+
+tradeList.ChildAdded:Connect(function(child)
+    if child.Name == "ItemTemplate" then watchItem(child) end
+end)
+offerables.ChildAdded:Connect(function(child)
+    local sio = child:WaitForChild("SelectionImageObject", 5)
+    if sio then watchItem(sio) end
+end)
+
+trade:GetPropertyChangedSignal("Visible"):Connect(function()
+    if trade.Visible then
+        initializeItems()
+        updateTotal()
+    end
+end)
+
+-- Инициализация
+initializeItems()
+updateTotal()
