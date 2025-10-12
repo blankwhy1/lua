@@ -2,6 +2,7 @@
   "Shiny": { "Multiplier": 1.85 },
   "Giant": { "Multiplier": 1 },
   "Big": { "Multiplier": 1 },
+  "Mossy": { "Multiplier": 16.5 },
   "Sparkling": { "Multiplier": 1.85 },
   "Tryhard": { "Multiplier": 17 },
   "Mastered": { "Multiplier": 16 },
@@ -156,5 +157,6 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
