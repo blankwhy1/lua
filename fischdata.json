@@ -1,4 +1,6 @@
 {
+  "Whisker Bill": { "Price": 31 },
+  "Sea Snake": { "Price": 62.5 },
   "Destroyed Fossil": { "Price": 7.778 },
   "Boot": { "Price": 12.5 },
   "Freezing Shroom": { "Price": 92.857 },
@@ -940,6 +942,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
