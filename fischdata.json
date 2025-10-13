@@ -9,6 +9,7 @@
   "Fungal Cluster": { "Price": 10 },
   "Bone": { "Price": 12 },
   "Log": { "Price": 16.533 },
+  "Meg's Fang": { "Price": 750 },
   "Ice": { "Price": 2.5 },
   "Rock": { "Price": 0.714 },
   "Seaweed": { "Price": 30 },
@@ -939,5 +940,6 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
