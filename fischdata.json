@@ -18,6 +18,7 @@
   "Doubloon": { "Price": 5 },
   "Lobster": { "Price": 46.429 },
   "Pollock": { "Price": 14 },
+  "Goliath Tigerfish": { "Price": 1.4 },
   "Bluelip Batfish": { "Price": 25 },
   "Voltfin Carp": { "Price": 7.2 },
   "Mackerel": { "Price": 18.75 },
@@ -938,4 +939,5 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
