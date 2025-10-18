@@ -4,7 +4,7 @@
   "Baby's First Balloon": { "Price": 41,666.667 },
   "Birthday Dumbo Octopus": { "Price": 1,309.524 },
   "Birthday Gift": { "Price": 110 },
-  "Birthday Squid": { "Price": 2,037.037 },
+  "Birthday Squid": { "Price": 2.037 },
   "Birthday Megalodon": { "Price": 2.985 },
   "Ashclaw": { "Price": 0.64 },
   "Whisker Bill": { "Price": 31 },
@@ -950,6 +950,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
