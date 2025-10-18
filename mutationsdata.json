@@ -1,10 +1,4 @@
 {
-  "Frightful": { "Multiplier": 6 },
-  "Spooky": { "Multiplier": 6 },
-  "Cemen": { "Multiplier": 1.03 },
-  "Madness": { "Multiplier": 1 },
-  "Nightmare": { "Multiplier": 16 },
-  "Eerie": { "Multiplier": 6 },
   "Shiny": { "Multiplier": 1.85 },
   "Giant": { "Multiplier": 1 },
   "Big": { "Multiplier": 1 },
@@ -163,6 +157,7 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
 
