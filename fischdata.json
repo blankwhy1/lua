@@ -48,6 +48,23 @@
   "Gloombiter": { "Price": 50 },
   "Shortfin Mako Shark": { "Price": 1.9 },
   "Red Snapper": { "Price": 10 },
+  "Neon Tetra": { "Price": 28 },
+  "Cardinal Tetra": { "Price": 36.7 },
+  "Bronze Corydoras": { "Price": 53.3 },
+  "Oscar Cichlid": { "Price": 125 },
+  "Freshwater Pacu": { "Price": 250 },
+  "Black Ghost Knifefish": { "Price": 800 },
+  "Redeye Piranha": { "Price": 514.3 },
+  "Silver Arowana": { "Price": 375 },
+  "Northern Snakehead": { "Price": 975 },
+  "Payara": { "Price": 1283.3 },
+  "Pirarucu": { "Price": 3125 },
+  "Electric Eel": { "Price": 2100 },
+  "Piraiba": { "Price": 3120 },
+  "Goliath Tigerfish": { "Price": 4200 },
+  "Motoro Stingray": { "Price": 4950 },
+  "Mossjaw": { "Price": 157142.9 },
+  "Elder Mossjaw": { "Price": 228571.4 }
   "Clowned Triggerfish": { "Price": 9.091 },
   "Herring": { "Price": 63.636 },
   "Column Crawler": { "Price": 45.833 },
@@ -943,6 +960,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
