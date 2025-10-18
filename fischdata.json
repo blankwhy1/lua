@@ -1,8 +1,4 @@
 {
-  "Birthday Cake": { "Price": 5,740.741 },
-  "Birthday Goldfish": { "Price": 1,100 },
-  "Baby's First Balloon": { "Price": 41,666.667 },
-  "Birthday Dumbo Octopus": { "Price": 1,309.524 },
   "Birthday Gift": { "Price": 110 },
   "Birthday Squid": { "Price": 2.037 },
   "Birthday Megalodon": { "Price": 2.985 },
@@ -950,6 +946,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
