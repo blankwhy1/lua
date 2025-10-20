@@ -63,7 +63,7 @@
   "Piraiba": { "Price": 3120 },
   "Goliath Tigerfish": { "Price": 4200 },
   "Motoro Stingray": { "Price": 4950 },
-  "Mossjaw": { "Price": 157142.9 },
+  "Mossjaw": { "Price": 45 },
   "Elder Mossjaw": { "Price": 0.229 },
   "Clowned Triggerfish": { "Price": 9.091 },
   "Herring": { "Price": 63.636 },
@@ -960,6 +960,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
