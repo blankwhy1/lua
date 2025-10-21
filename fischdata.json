@@ -8,6 +8,34 @@
   "String": { "Price": 2.5 },
   "Driftwood": { "Price": 16.667 },
   "Stalactite": { "Price": 2.692 },
+  "Phantom Jellyfish": { "Price": 26.67 },
+  "Frightful Crate": { "Price": 100 },
+  "Scarecrow": { "Price": 10 },
+  "Spooky Relic": { "Price": 47.62 },
+  "Marshmallow Mackerel": { "Price": 20 },
+  "Coffin Crab": { "Price": 33.33 },
+  "Gravestone Stingray": { "Price": 16 },
+  "Xtra Sour Gummy Pack": { "Price": 125 },
+  "Caramel Chub": { "Price": 83.33 },
+  "Eerie Relic": { "Price": 47.62 },
+  "Candy Corn Cod": { "Price": 40 },
+  "Skeletal Nessie": { "Price": 10 },
+  "Gummy Guppy": { "Price": 133.33 },
+  "Ectoplasm Eel": { "Price": 22.22 },
+  "Werewolf Walleye": { "Price": 18.33 },
+  "Vampire Perch": { "Price": 20 },
+  "Kelpie": { "Price": 83.33 },
+  "Mourning Manta Ray": { "Price": 12 },
+  "Ghost Minnow": { "Price": 250 },
+  "Licorice Leech": { "Price": 312.5 },
+  "Pumpkin Pufferfish": { "Price": 100 },
+  "Jack-o-Lantern": { "Price": 45.71 },
+  "Frightful Relic": { "Price": 47.62 },
+  "Baby Nessie": { "Price": 287.5 },
+  "Lollipop Lamprey": { "Price": 75 },
+  "Candle Carp": { "Price": 57.14 },
+  "Potion Perch": { "Price": 23.33 },
+  "Spider Salmon": { "Price": 22.5 },
   "Tire": { "Price": 1.818 },
   "Fungal Cluster": { "Price": 10 },
   "Bone": { "Price": 12 },
@@ -960,6 +988,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
