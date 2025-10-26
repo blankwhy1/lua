@@ -86,7 +86,7 @@
   "Silver Arowana": { "Price": 375 },
   "Northern Snakehead": { "Price": 975 },
   "Payara": { "Price": 1283.3 },
-  "Pirarucu": { "Price": 3125 },
+  "Pirarucu": { "Price": 0.25 },
   "Electric Eel": { "Price": 2100 },
   "Piraiba": { "Price": 3120 },
   "Goliath Tigerfish": { "Price": 4200 },
@@ -988,6 +988,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
