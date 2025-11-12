@@ -1,330 +1,221 @@
-print("[Trade Fisch Helper] DEBUG + AUTO-FIND v4.0")
+print("[Trade Fisch Helper] Loaded ✅")
 
 --=== СЕРВИСЫ ===--
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HttpService = game:GetService("HttpService")
-local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
 
---=== ОСНОВНЫЕ (АВТО-ПОИСК) ===--
-local LP = Players.LocalPlayer
-local PG = LP:WaitForChild("PlayerGui", 10)
-
--- 🔍 АВТО-ПОИСК TRADE UI
-local function findTrade()
-    for _, gui in pairs(PG:GetDescendants()) do
-        if gui.Name == "Trade" and gui:IsA("Frame") then
-            local header = gui:FindFirstChild("Header")
-            local playerOffer = gui:FindFirstChild("PlayerOffer")
-            if header and playerOffer then
-                local list = playerOffer:FindFirstChild("List")
-                if list then
-                    local scrollingFrame = list:FindFirstChild("ScrollingFrame")
-                    if scrollingFrame then
-                        return gui, header, scrollingFrame, scrollingFrame.Parent.Parent
-                    end
-                end
-            end
-        end
-    end
-    return nil, nil, nil, nil
-end
-
-local trade, header, list, frame = findTrade()
-if not trade then
-    print("❌ TRADE UI НЕ НАЙДЕН! Ждём...")
-    PG.DescendantAdded:Connect(function(child)
-        if child.Name == "Trade" and child:IsA("Frame") then
-            task.wait(1)
-            trade, header, list, frame = findTrade()
-            if trade then
-                print("✅ TRADE НАЙДЕН!")
-            end
-        end
-    end)
-end
-
--- 🔍 АВТО-ПОИСК RETradeAddItem
-local addItem
-local function findRE()
-    local packages = ReplicatedStorage:FindFirstChild("packages")
-    if packages then
-        local net = packages:FindFirstChild("Net")
-        if net then
-            local re = net:FindFirstChild("RE")
-            if re then
-                addItem = re:FindFirstChild("Trade")
-                if addItem and addItem:FindFirstChild("AddItem") then
-                    return addItem.AddItem
-                end
-            end
-        end
-    end
-    return nil
-end
-
-addItem = findRE()
-if not addItem then
-    print("🔍 Ищем RETradeAddItem...")
-    ReplicatedStorage.DescendantAdded:Connect(function(child)
-        if child.Name == "AddItem" and child.Parent.Name == "Trade" and child.Parent.Parent.Name == "RE" then
-            addItem = child
-            print("✅ RETradeAddItem НАЙДЕН!")
-        end
-    end)
-end
-
---=== ЖДЁМ ОСНОВНЫЕ ОБЪЕКТЫ ===--
-task.wait(2)
-if not trade or not header or not list or not frame or not addItem then
-    print("❌ КРИТИЧЕСКАЯ ОШИБКА: Не все объекты найдены!")
-    print("Trade:", trade and "OK" or "MISSING")
-    print("Header:", header and "OK" or "MISSING")
-    print("List:", list and "OK" or "MISSING")
-    print("Frame:", frame and "OK" or "MISSING")
-    print("AddItem:", addItem and "OK" or "MISSING")
-    return
-end
-
-print("✅ ВСЕ ОБЪЕКТЫ НАЙДЕНЫ!")
+--=== ОСНОВНЫЕ ===--
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local hud = PlayerGui:WaitForChild("hud")
+local trade = hud.safezone:WaitForChild("Trade")
+local tradeHeader = trade:WaitForChild("Header")
+local tradeList = trade.PlayerOffer.List.ScrollingFrame
+local tradeFrame = tradeList.Parent.Parent
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local RETradeAddItem = ReplicatedStorage:WaitForChild("packages").Net["RE/Trade/AddItem"]
 
 --=== КОНФИГ ===--
-local FISH = { "Typhoon Tailfin", "Twilight Tentaclefish" }
-local DELAY = 0.005
-local SCAN_INTERVAL = 0.1
-local TOTAL_DEBOUNCE = 0.25
+local FISH_TO_TRADE = { "Typhoon Tailfin", "Twilight Tentaclefish" }
+local SCAN_INTERVAL = 0.1  -- как часто сканируем инвентарь
+local SEND_INTERVAL = 0.005 -- минимальная локальная пауза, сервер сам регулирует реальную скорость
 
---=== Backpack/Character ===--
-local bp = LP:WaitForChild("Backpack")
-local function getChar()
-    return LP.Character or LP.CharacterAdded:Wait()
+--=== СОСТОЯНИЕ ===--
+local isTrading = false
+local tradedFish = {}
+local toggleButton
+local fishCache = {}
+local total = 0
+
+--=== JSON ===--
+local function safeJson(url)
+    local ok, res = pcall(function() return game:HttpGet(url, true) end)
+    if not ok or not res or res == "" then return {} end
+    local ok2, data = pcall(function() return HttpService:JSONDecode(res) end)
+    return ok2 and data or {}
 end
-local char = getChar()
 
---=== ДАННЫЕ ===--
-local success, fishData = pcall(function()
-    return HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/blankwhy1/lua/main/fischdata.json", true))
-end)
-local success2, mutData = pcall(function()
-    return HttpService:JSONDecode(game:HttpGet("https://raw.githubusercontent.com/blankwhy1/lua/main/mutationsdata.json", true))
-end)
-
-if not success or not success2 then
-    print("❌ ОШИБКА JSON — TOTAL не будет работать")
-end
+local fishData = safeJson("https://raw.githubusercontent.com/blankwhy1/lua/main/fischdata.json")
+local mutationData = safeJson("https://raw.githubusercontent.com/blankwhy1/lua/main/mutationsdata.json")
 
 --=== УТИЛИТЫ ===--
-local function fmt(n)
-    n = math.floor(n + .5)
-    local s = tostring(n):reverse()
-    s = s:gsub("(%d%d%d)", "%1,")
-    return s:reverse():gsub("^,", "")
-end
-
-local function getName(txt)
-    local m = txt:match("<font[^>]*>(.-)</font>")
-    local n = txt:gsub("<font[^>]*>.-</font>", ""):match("^%s*(.-)%s*$")
-    return m or "", n or ""
-end
-
-local function getWeight(txt)
-    local num = tonumber(txt:match("([%d%.]+)")) or 0
-    return txt:find("T") and num * 1000 or num
-end
-
-local function getStack(txt)
-    return txt and tonumber(txt:match("x(%d+)")) or 1
-end
-
-local function calcPrice(w, base, mut, stack)
-    if not base or base <= 0 then return 0 end
-    local p = base * getWeight(w)
-    if mut ~= "" and mutData and mutData[mut] then
-        p = p * (mutData[mut].Multiplier or 1)
+local function formatNumber(num)
+    num = math.floor(num + 0.5)
+    local s = tostring(num)
+    while true do
+        s, c = s:gsub("^(-?%d+)(%d%d%d)", "%1,%2")
+        if c == 0 then break end
     end
-    return p * (stack > 1 and stack or 1)
+    return s
 end
 
---=== TOTAL GUI ===--
+local function parseName(txt)
+    local mutation = txt:match("<font[^>]*>(.-)</font>")
+    local name = txt:gsub("<font[^>]*>.-</font>", ""):match("^%s*(.-)%s*$")
+    return mutation, name
+end
+
+local function parseWeight(txt)
+    local n = tonumber(txt:match("[%d%.]+")) or 0
+    return txt:find("T") and n * 1000 or n
+end
+
+local function parseStack(txt)
+    return tonumber(txt:match("x(%d+)")) or 1
+end
+
+local function price(weight, base, mutation, stack)
+    if not base then return 0 end
+    local totalPrice = base * parseWeight(weight)
+    if mutation and mutationData[mutation] and mutationData[mutation].Multiplier then
+        totalPrice *= mutationData[mutation].Multiplier
+    end
+    return totalPrice * (stack > 1 and stack or 1)
+end
+
+--=== TOTAL LABEL ===--
 local totalLabel = Instance.new("TextLabel")
-totalLabel.Name = "FischTotal"
-totalLabel.Size = UDim2.new(1, 0, 0, 34)
-totalLabel.Position = UDim2.new(0, 0, 1, -34)
-totalLabel.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-totalLabel.BackgroundTransparency = 0.3
-totalLabel.TextColor3 = Color3.fromRGB(0, 255, 100)
-totalLabel.Font = Enum.Font.GothamBold
+totalLabel.Name = "TotalLabel"
+totalLabel.Size = UDim2.new(1, 0, 0, 40)
+totalLabel.Position = UDim2.new(0, 0, 1, -40)
+totalLabel.BackgroundTransparency = 0.5
+totalLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+totalLabel.TextColor3 = Color3.new(0, 1, 0)
 totalLabel.TextScaled = true
-totalLabel.TextXAlignment = Enum.TextXAlignment.Left
+totalLabel.Font = Enum.Font.SourceSansBold
+totalLabel.ZIndex = 10
+totalLabel.Parent = tradeFrame
+totalLabel.Visible = true
 totalLabel.Text = "Total: 0"
-totalLabel.ZIndex = 15
-totalLabel.Parent = frame
-totalLabel.Visible = false
 
---=== TOTAL ЛОГИКА ===--
-local currentTotal = 0
-local lastUpdate = 0
-
-local function updateTotal()
-    local now = tick()
-    if now - lastUpdate < TOTAL_DEBOUNCE then return end
-    lastUpdate = now
-
-    if not fishData then return end
-
-    local sum = 0
-    for _, item in ipairs(list:GetChildren()) do
-        if item.Name == "ItemTemplate" and item:FindFirstChild("ItemName") and item:FindFirstChild("Weight") then
-            local mutation, fishName = getName(item.ItemName.Text)
-            local data = fishData[fishName]
-            if data and data.Price then
-                sum = sum + calcPrice(item.Weight.Text, data.Price, mutation, getStack(item:FindFirstChild("Stack") and item.Stack.Text))
-            end
+--=== ИНКРЕМЕНТАЛЬНЫЙ TOTAL ===--
+local function addItemTotal(item)
+    local name, weight, stack = item:FindFirstChild("ItemName"), item:FindFirstChild("Weight"), item:FindFirstChild("Stack")
+    if name and weight then
+        local mutation, fishName = parseName(name.Text)
+        local fishInfo = fishData[fishName]
+        if fishInfo then
+            total += price(weight.Text, fishInfo.Price, mutation, stack and parseStack(stack.Text) or 1)
+            totalLabel.Text = "Total: " .. formatNumber(total)
         end
     end
+end
 
-    sum = math.floor(sum + 0.5)
-    if math.abs(sum - currentTotal) >= 1 then
-        currentTotal = sum
-        totalLabel.Text = "Total: " .. fmt(sum)
+local function removeItemTotal(item)
+    local name, weight, stack = item:FindFirstChild("ItemName"), item:FindFirstChild("Weight"), item:FindFirstChild("Stack")
+    if name and weight then
+        local mutation, fishName = parseName(name.Text)
+        local fishInfo = fishData[fishName]
+        if fishInfo then
+            total -= price(weight.Text, fishInfo.Price, mutation, stack and parseStack(stack.Text) or 1)
+            if total < 0 then total = 0 end
+            totalLabel.Text = "Total: " .. formatNumber(total)
+        end
     end
 end
 
-list.ChildAdded:Connect(function() task.delay(0.05, updateTotal) end)
-list.ChildRemoved:Connect(updateTotal)
+tradeList.ChildAdded:Connect(function(child)
+    if child.Name == "ItemTemplate" then addItemTotal(child) end
+end)
 
---=== SMART CACHE ===--
-local fishCache = {}
-local lastScan = 0
-local cacheVersion = 0
-local sent = {}
+tradeList.ChildRemoved:Connect(function(child)
+    if child.Name == "ItemTemplate" then removeItemTotal(child) end
+end)
 
-local function scanFishOnce()
-    local now = tick()
-    if now - lastScan < SCAN_INTERVAL then return end
-    lastScan = now
-    cacheVersion = cacheVersion + 1
+--=== КЭШ РЫБ ===--
+local function scanFish()
     fishCache = {}
-
-    local containers = {bp, getChar()}
-    for _, container in pairs(containers) do
-        if container then
-            for _, item in pairs(container:GetChildren()) do
-                if table.find(FISH, item.Name) and item:FindFirstChild("link") then
-                    local id = item.link.Value
-                    if id and not sent[id] then
-                        fishCache[#fishCache + 1] = {id = id, version = cacheVersion}
-                        print("🐟 Найдена рыба:", item.Name, id)  -- ДЕБАГ
-                    end
+    for _, container in {Backpack, Character} do
+        for _, item in ipairs(container:GetChildren()) do
+            if item:FindFirstChild("link") and table.find(FISH_TO_TRADE, item.Name) then
+                local id = item.link.Value
+                if id and not tradedFish[id] then
+                    table.insert(fishCache, item)
                 end
             end
         end
     end
-    print("📦 КЭШ:", #fishCache, "рыб")  -- ДЕБАГ
 end
 
-local function sendFromCache()
-    for i = #fishCache, 1, -1 do
-        local fish = fishCache[i]
-        if fish.version ~= cacheVersion then
-            table.remove(fishCache, i)
-        elseif trading and trade.Visible then
-            print("📤 Отправляем ID:", fish.id)  -- ДЕБАГ
-            sent[fish.id] = true
-            addItem:FireServer("Item", fish.id, 1)
-            table.remove(fishCache, i)
-            task.wait(DELAY)
-        else
-            break
-        end
+task.spawn(function()
+    while true do
+        if isTrading then scanFish() end
+        task.wait(SCAN_INTERVAL)
+    end
+end)
+
+--=== АВТО ТРЕЙД ===--
+local function isTradeOpen()
+    return trade.Visible
+end
+
+local function tradeFish()
+    for _, item in ipairs(fishCache) do
+        if not isTrading or not isTradeOpen() then break end
+        local id = item.link.Value
+        tradedFish[id] = true
+        pcall(function() RETradeAddItem:FireServer("Item", id, 1) end)
+        task.wait(SEND_INTERVAL) -- сервер сам ставит свою задержку, мы держим минимальную локальную
     end
 end
 
---=== ТОРГОВЫЙ ЦИКЛ ===--
-local trading = false
+--=== КНОПКА ===--
+local function toggleTrade()
+    isTrading = not isTrading
+    if not isTradeOpen() then isTrading = false end
+    tradedFish = {}
 
-local function startTrading()
-    task.spawn(function()
-        while trading and trade.Visible do
-            scanFishOnce()
-            sendFromCache()
-            RunService.Heartbeat:Wait()
-        end
-        trading = false
-    end)
-end
-
---=== START/STOP КНОПКА ===--
-local btn = Instance.new("TextButton")
-btn.Name = "FischStartBtn"
-btn.Size = UDim2.new(0, 120, 0, 38)
-btn.Position = UDim2.new(0.5, -60, 0, 8)
-btn.AnchorPoint = Vector2.new(0.5, 0)
-btn.BackgroundColor3 = Color3.fromRGB(0, 140, 0)
-btn.TextColor3 = Color3.new(1, 1, 1)
-btn.Font = Enum.Font.GothamBold
-btn.TextScaled = true
-btn.Text = "START"
-btn.ZIndex = 20
-btn.Parent = header
-
-local corner = Instance.new("UICorner", btn)
-corner.CornerRadius = UDim.new(0, 10)
-
-local stroke = Instance.new("UIStroke", btn)
-stroke.Color = Color3.new(1,1,1)
-stroke.Thickness = 2
-
-btn.MouseButton1Click:Connect(function()
-    if not trade.Visible then 
-        print("❌ Торговля закрыта!")
-        return 
-    end
-    trading = not trading
-    sent = {}
-    fishCache = {}
-    btn.Text = trading and "STOP" or "START"
-    btn.BackgroundColor3 = trading and Color3.fromRGB(180, 0, 0) or Color3.fromRGB(0, 140, 0)
-    
-    if trading then
-        print("🚀 НАЧИНАЕМ ТОРГОВЛЮ!")
-        startTrading()
+    if isTrading then
+        toggleButton.Text = "STOP"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+        task.spawn(function()
+            while isTrading and isTradeOpen() do
+                tradeFish()
+                task.wait(0.01)
+            end
+        end)
     else
-        print("⏹️ ТОРГОВЛЯ ОСТАНОВЛЕНА")
+        toggleButton.Text = "START"
+        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 140, 0)
     end
-end)
-
---=== T КЛАВИША ===--
-UserInputService.InputBegan:Connect(function(input, gp)
-    if gp then return end
-    if input.KeyCode == Enum.KeyCode.T and trade and trade.Visible then
-        btn.MouseButton1Click:Fire()
-    end
-end)
-
---=== ВИДИМОСТЬ ===--
-if trade then
-    trade:GetPropertyChangedSignal("Visible"):Connect(function()
-        local visible = trade.Visible
-        btn.Visible = visible
-        totalLabel.Visible = visible
-        if visible then
-            print("✅ ТОРГОВЛЯ ОТКРЫТА")
-            task.delay(0.5, function()
-                updateTotal()
-                scanFishOnce()
-            end)
-        else
-            trading = false
-            currentTotal = 0
-            totalLabel.Text = "Total: 0"
-            btn.Text = "START"
-            btn.BackgroundColor3 = Color3.fromRGB(0, 140, 0)
-            print("❌ ТОРГОВЛЯ ЗАКРЫТА")
-        end
-    end)
 end
 
-print("🎉 [Fisch Helper] ЗАГРУЖЕН! Ждём открытия торговли...")
-print("🔑 T - старт/стоп | КНОПКА START в хедере торговли")
+local function createButton()
+    toggleButton = Instance.new("TextButton")
+    toggleButton.Size = UDim2.new(0, 140, 0, 45)
+    toggleButton.Position = UDim2.new(0.5, -70, 0, 8)
+    toggleButton.AnchorPoint = Vector2.new(0.5, 0)
+    toggleButton.BackgroundColor3 = Color3.fromRGB(0, 140, 0)
+    toggleButton.TextColor3 = Color3.new(1, 1, 1)
+    toggleButton.Font = Enum.Font.GothamBold
+    toggleButton.TextScaled = true
+    toggleButton.Text = "START"
+    toggleButton.Parent = tradeHeader
+
+    Instance.new("UICorner", toggleButton).CornerRadius = UDim.new(0, 12)
+    local stroke = Instance.new("UIStroke")
+    stroke.Thickness = 2
+    stroke.Transparency = 0.6
+    stroke.Color = Color3.fromRGB(255, 255, 255)
+    stroke.Parent = toggleButton
+
+    toggleButton.MouseButton1Click:Connect(toggleTrade)
+end
+
+--=== ХУКИ ===--
+trade:GetPropertyChangedSignal("Visible"):Connect(function()
+    toggleButton.Visible = isTradeOpen()
+end)
+
+UserInputService.InputBegan:Connect(function(input, gp)
+    if not gp and input.KeyCode == Enum.KeyCode.T and isTradeOpen() then
+        toggleTrade()
+    end
+end)
+
+--=== ИНИЦИАЛИЗАЦИЯ ===--
+createButton()
