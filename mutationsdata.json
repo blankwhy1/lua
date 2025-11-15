@@ -6,12 +6,14 @@
   "Sparkling": { "Multiplier": 1.85 },
   "Tryhard": { "Multiplier": 10 },
   "Mastered": { "Multiplier": 9 },
+  "Glowy": { "Multiplier": 8 },
   "Umbra": { "Multiplier": 15 },
   "Evil": { "Multiplier": 6.5 },
   "Nocturnal": { "Multiplier": 14.2 },
   "Distraught": { "Multiplier": 8.5 },
-  "Serene": { "Multiplier": 14 },
+  "Serene": { "Multiplier": 8 },
   "Diurnal": { "Multiplier": 13.5 },
+  "Breezed": { "Multiplier": 8 },
   "Atomic": { "Multiplier": 12 },
   "Chaotic": { "Multiplier": 12 },
   "Glacial": { "Multiplier": 12 },
@@ -92,7 +94,7 @@
   "Brother": { "Multiplier": 1.5 },
   "Mosaic": { "Multiplier": 1.5 },
   "Hexed": { "Multiplier": 1.5 },
-  "Electric": { "Multiplier": 1.45 },
+  "Electric": { "Multiplier":  2.1 },
   "Darkened": { "Multiplier": 1.3 },
   "Frozen": { "Multiplier": 1.3 },
   "Negative": { "Multiplier": 1.3 },
@@ -159,6 +161,7 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
 
