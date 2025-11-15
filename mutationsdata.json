@@ -7,7 +7,7 @@
   "Tryhard": { "Multiplier": 10 },
   "Mastered": { "Multiplier": 16 },
   "Umbra": { "Multiplier": 15 },
-  "Evil": { "Multiplier": 15 },
+  "Evil": { "Multiplier": 6.5 },
   "Nocturnal": { "Multiplier": 14.2 },
   "Serene": { "Multiplier": 14 },
   "Diurnal": { "Multiplier": 13.5 },
@@ -157,6 +157,7 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
 
