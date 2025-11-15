@@ -17,6 +17,7 @@
   "Oscar": { "Multiplier": 12 },
   "Puritas": { "Multiplier": 10.7 },
   "Snowy": { "Multiplier": 10 },
+  "Fabulous": { "Multiplier": 9.3 },
   "Blessed": { "Multiplier": 10 },
   "Infernal": { "Multiplier": 10 },
   "Tentacle Surge": { "Multiplier": 10 },
@@ -157,6 +158,7 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
 
