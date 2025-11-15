@@ -5,7 +5,7 @@
   "Mossy": { "Multiplier": 8.7 },
   "Sparkling": { "Multiplier": 1.85 },
   "Tryhard": { "Multiplier": 10 },
-  "Mastered": { "Multiplier": 16 },
+  "Mastered": { "Multiplier": 9 },
   "Umbra": { "Multiplier": 15 },
   "Evil": { "Multiplier": 6.5 },
   "Nocturnal": { "Multiplier": 14.2 },
@@ -159,6 +159,7 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
 
