@@ -9,6 +9,7 @@
   "Umbra": { "Multiplier": 15 },
   "Evil": { "Multiplier": 6.5 },
   "Nocturnal": { "Multiplier": 14.2 },
+  "Distraught": { "Multiplier": 8.5 },
   "Serene": { "Multiplier": 14 },
   "Diurnal": { "Multiplier": 13.5 },
   "Atomic": { "Multiplier": 12 },
@@ -158,6 +159,7 @@
   "Sandy": { "Multiplier": 1.2 },
   "Unsellable": { "Multiplier": 0 }
 }
+
 
 
 
