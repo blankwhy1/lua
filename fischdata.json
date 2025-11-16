@@ -112,7 +112,7 @@
   "Night Shrimp": { "Price": 275 },
   "Gudgeon": { "Price": 133.333 },
   "Phanerorhynchus": { "Price": 3.214 },
-  "Twilight Glowfish": { "Price": 21.667 },
+  "Twilight Glowfish": { "Price": 11.733 },
   "Pufferfish": { "Price": 115 },
   "Frigid Taco": { "Price": 24 },
   "Icy Goldfish": { "Price": 20 },
@@ -139,7 +139,7 @@
   "Mage Marlin": { "Price": 12.5 },
   "Kitefin Shark": { "Price": 26.667 },
   "Coral Emperor": { "Price": 133.333 },
-  "Typhoon Tailfin": { "Price": 2.647 },
+  "Typhoon Tailfin": { "Price": 0.633 },
   "Small Spine Chimera": { "Price": 8 },
   "Midnight Axolotl": { "Price": 366.667 },
   "Rabbitfish": { "Price": 183.333 },
@@ -983,11 +983,12 @@
   "Helicoprion": { "Price": 14.286 },
   "Spectral Serpent": { "Price": 0.692 },
   "Mirage Toadfish": { "Price": 13.6 },
-  "Twilight Tentaclefish": { "Price": 17.333 },
+  "Twilight Tentaclefish": { "Price": 4.871 },
   "Musical Crab": { "Price": 2500 },
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
