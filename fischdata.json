@@ -499,7 +499,7 @@
   "Ancient Orca": { "Price": 6 },
   "Gem Blobfish": { "Price": 2000 },
   "Mustard": { "Price": 4750 },
-  "Scylla": { "Price": 0.4 },
+  "Scylla": { "Price": 0.088 },
   "🐋": { "Price": 0.001 },
   "Toilet Fish": { "Price": 400 },
   "Ancient Kraken": { "Price": 0.2 },
@@ -988,6 +988,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
