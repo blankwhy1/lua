@@ -19,7 +19,7 @@ local l  = p:WaitForChild("leaderstats"):WaitForChild("C$")
 local b  = ReplicatedStorage.packages.Net["RE/DailyShop/Purchase"]
 local r  = ReplicatedStorage.packages.Net["RE/DailyShop/Refresh"]
 
-local t        = {"Exalted Relic","Mutation Totem"}
+local t        = {"1"}
 local MIN_CASH = 10000000
 
 -- ========================================
