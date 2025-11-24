@@ -158,7 +158,7 @@
   "Deep Crownfish": { "Price": 20 },
   "Carrot Turtle": { "Price": 125 },
   "Olm": { "Price": 2250 },
-  "Wiifish": { "Price": 30 },
+  "Wiifish": { "Price": 45.1 },
   "Sunfish": { "Price": 1.5 },
   "Infant Giant Seadevil": { "Price": 2.941 },
   "Flying Fish": { "Price": 240 },
@@ -988,6 +988,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
