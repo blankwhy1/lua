@@ -232,7 +232,7 @@
   "Ice Eel": { "Price": 77.5 },
   "Abyss Snapper": { "Price": 75 },
   "Kraken Koi": { "Price": 3.929 },
-  "Serpent Surgeonfish": { "Price": 5.952 },
+  "Serpent Surgeonfish": { "Price": 0.514 },
   "Diamond Discus": { "Price": 6.857 },
   "Red Crabsquid": { "Price": 40 },
   "Colossal Saccopharynx": { "Price": 0.5 },
@@ -988,6 +988,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
