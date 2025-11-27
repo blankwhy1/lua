@@ -487,7 +487,7 @@
   "Carrot Shark": { "Price": 170.213 },
   "Molten Banshee": { "Price": 11.818 },
   "Crystallized Seadragon": { "Price": 0.206 },
-  "Golden Sea Pearl": { "Price": 8750 },
+  "Golden Sea Pearl": { "Price": 25000 },
   "Colossal Ancient Dragon": { "Price": 0.625 },
   "Ancient Megalodon": { "Price": 0.229 },
   "Colossal Blue Dragon": { "Price": 0.667 },
@@ -988,6 +988,7 @@
   "Chillfin Chimaera": { "Price": 1.538 },
   "Gemstone Whale Shark": { "Price": 15.625 }
 }
+
 
 
 
