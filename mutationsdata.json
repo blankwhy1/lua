@@ -1,7 +1,7 @@
 {
   "Shiny": { "Multiplier": 1.85 },
   "Sparkling": { "Multiplier": 1.85 },
-  "Big": { "Multiplier": 1.495 },
+  "Big": { "Multiplier": 0 },
   "Giant": { "Multiplier": 0 },
   "Tryhard": { "Multiplier": 10.0 },
   "Fabulous": { "Multiplier": 9.3 },
@@ -196,3 +196,4 @@
   "Blue Moon": { "Multiplier": 4.0 },
   "Unsellable": { "Multiplier": 0.0 }
 }
+
