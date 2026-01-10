@@ -1,0 +1,61 @@
+local Http = game:GetService("HttpService")
+local TPS = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+
+local PLACE_ID = 99519129453387
+local API = "https://games.roblox.com/v1/games/"
+local SERVERS_URL = API .. PLACE_ID .. "/servers/Public?sortOrder=Asc&limit=100"
+
+local function getServers(cursor)
+    local url = SERVERS_URL
+    if cursor then
+        url ..= "&cursor=" .. cursor
+    end
+
+    local success, raw = pcall(function()
+        return game:HttpGet(url)
+    end)
+    if not success then
+        return nil
+    end
+
+    local ok, data = pcall(function()
+        return Http:JSONDecode(raw)
+    end)
+    if not ok then
+        return nil
+    end
+
+    return data
+end
+
+local targetServerId = nil
+local cursor = nil
+
+repeat
+    local data = getServers(cursor)
+
+    if data and type(data.data) == "table" then
+        for _, server in ipairs(data.data) do
+            -- 🎯 НЕ ПУСТОЙ, НО < 5 ИГРОКОВ
+            if server.playing and server.playing > 0 and server.playing < 2 then
+                targetServerId = server.id
+                break
+            end
+        end
+
+        cursor = data.nextPageCursor
+    else
+        task.wait(1)
+    end
+until targetServerId or not cursor
+
+if targetServerId then
+    TPS:TeleportToPlaceInstance(
+        PLACE_ID,
+        targetServerId,
+        Players.LocalPlayer
+    )
+else
+    warn("❌ Сервер с < 5 игроками не найден")
+end
