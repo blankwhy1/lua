@@ -38,7 +38,7 @@ repeat
     if data and type(data.data) == "table" then
         for _, server in ipairs(data.data) do
             -- 🎯 НЕ ПУСТОЙ, НО < 5 ИГРОКОВ
-            if server.playing and server.playing > 0 and server.playing < 2 then
+            if server.playing and server.playing > 0 and server.playing < 5 then
                 targetServerId = server.id
                 break
             end
